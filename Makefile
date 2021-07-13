@@ -2,10 +2,12 @@ NAME = push_swap
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
 LIB = -L libft
-OPTION_LIB = -lmlx -framework OpenGL -framework AppKit -lft
 OPTION = -c
 LIBFT = make -C libft
-SRCS =	main.c
+SRCS =	main.c \
+		reverse_rotate_operations.c \
+		rotate_operations.c \
+		swap_push_operations.c
 
 OBJS_SRCS = ${SRCS:.c=.o}
 
@@ -14,7 +16,7 @@ all: $(NAME)
 $(NAME) : $(OBJS_SRCS)
 		@$(CC) $(FLAGS) $(OPTION) -I./includes $(SRCS)
 		@$(LIBFT)
-		$(CC) $(OBJS_SRCS) -o $(NAME) $(LIB) $(OPTION_LIB)
+		$(CC) $(OBJS_SRCS) -o $(NAME) $(LIB)
 clean:
 		rm -f $(OBJS_SRCS)
 		@$(LIBFT) clean
