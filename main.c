@@ -31,7 +31,39 @@ int main(int argc, char *argv[]) {
 	arrays.b_size = 0;
 	arrays.b[0] = (int)argv[1];
 	push_swap(&arrays, argv);
+	int i = 0;
+	printf("a before:\n");
+	while (i < arrays.a_size)
+		printf("%i\n", arrays.a[i++]);
+	i = 0;
+	printf("\nb before:\n");
+	while (i < arrays.b_size)
+		printf("%i\n", arrays.b[i++]);
 	push_b(&arrays);
+	push_b(&arrays);
+	swap_ab(&arrays);
+	printf("\na after:\n");
+	i = 0;
+	while (i < arrays.a_size)
+		printf("%i\n", arrays.a[i++]);
+	i = 0;
+	printf("\nb after:\n");
+	while (i < arrays.b_size)
+		printf("%i\n", arrays.b[i++]);
+	/*
+	push_a(&arrays);
+	push_a(&arrays);
+	push_a(&arrays);
+	push_a(&arrays);
+	printf("\na after push_a * 4:\n");
+	i = 0;
+	while (i < arrays.a_size)
+		printf("%i\n", arrays.a[i++]);
+	i = 0;
+	printf("\nb after push_a * 4:\n");
+	while (i < arrays.b_size)
+		printf("%i\n", arrays.b[i++]);
+	*/
 	if (arrays.a)
 		free(arrays.a);
 	if (arrays.b)

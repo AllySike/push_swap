@@ -30,20 +30,21 @@ void swap_ab(t_push_swap *array)
 	swap_b(array);
 }
 
-void push_a(t_push_swap *array)
+void push_a(t_push_swap *arrays)
 {
 	int i;
 
-	if (array->b_size > 0)
+	if (arrays->b_size > 0)
 	{
-		i = array->a_size - 1;
-		while (i >= 0)
-			array->a[i] = array->a[--i];
-		array->a[i] = array->b[i];
-		while (i < array->b_size)
-			array->b[i] = array->b[++i];
-		array->b_size--;
-		array->a_size++;
+		i = arrays->a_size;
+		while (i-- > 0)
+			arrays->a[i + 1] = arrays->a[i];
+		i = 0;
+		arrays->a[i] = arrays->b[i];
+		while (i++ < arrays->b_size)
+			arrays->b[i - 1] = arrays->b[i];
+		arrays->b_size--;
+		arrays->a_size++;
 	}
 }
 
@@ -53,14 +54,13 @@ void push_b(t_push_swap *arrays)
 
 	if (arrays->a_size > 0)
 	{
-		i = arrays->b_size - 1;
-		if (i < 0)
-			i = 0;
-		while (i > 0)
-			arrays->b[i] = arrays->b[--i];
+		i = arrays->b_size;
+		while (i-- > 0)
+			arrays->b[i + 1] = arrays->b[i];
+		i = 0;
 		arrays->b[i] = arrays->a[i];
-		while (i < arrays->a_size)
-			arrays->a[i] = arrays->a[++i];
+		while (i++ < arrays->a_size)
+			arrays->a[i - 1] = arrays->a[i];
 		arrays->a_size--;
 		arrays->b_size++;
 	}
