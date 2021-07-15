@@ -17,5 +17,11 @@ void swap_b(t_push_swap *array);
 void swap_ab(t_push_swap *array);
 void push_b(t_push_swap *array);
 void push_a(t_push_swap *array);
+void rotate_a(t_push_swap *array);
+void rotate_b(t_push_swap *arrays);
+void rotate_ab(t_push_swap *arrays);
+void reverse_rotate_a(t_push_swap *arrays);
+void reverse_rotate_b(t_push_swap *arrays);
+void reverse_rotate_ab(t_push_swap *arrays);
 
 #endif

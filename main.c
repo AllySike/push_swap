@@ -41,7 +41,6 @@ int main(int argc, char *argv[]) {
 		printf("%i\n", arrays.b[i++]);
 	push_b(&arrays);
 	push_b(&arrays);
-	swap_ab(&arrays);
 	printf("\na after:\n");
 	i = 0;
 	while (i < arrays.a_size)
@@ -50,20 +49,15 @@ int main(int argc, char *argv[]) {
 	printf("\nb after:\n");
 	while (i < arrays.b_size)
 		printf("%i\n", arrays.b[i++]);
-	/*
-	push_a(&arrays);
-	push_a(&arrays);
-	push_a(&arrays);
-	push_a(&arrays);
-	printf("\na after push_a * 4:\n");
+	reverse_rotate_ab(&arrays);
+	printf("\na after:\n");
 	i = 0;
 	while (i < arrays.a_size)
 		printf("%i\n", arrays.a[i++]);
 	i = 0;
-	printf("\nb after push_a * 4:\n");
+	printf("\nb after:\n");
 	while (i < arrays.b_size)
 		printf("%i\n", arrays.b[i++]);
-	*/
 	if (arrays.a)
 		free(arrays.a);
 	if (arrays.b)
