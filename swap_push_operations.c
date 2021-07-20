@@ -10,6 +10,7 @@ void swap_a(t_push_swap *array)
 		array->a[0] = array->a[1];
 		array->a[1] = tmp;
 	}
+	write(1, "sa\n", 3);
 }
 
 void swap_b(t_push_swap *array)
@@ -22,12 +23,14 @@ void swap_b(t_push_swap *array)
 		array->b[0] = array->b[1];
 		array->b[1] = tmp;
 	}
+    write(1, "sb\n", 3);
 }
 
 void swap_ab(t_push_swap *array)
 {
 	swap_a(array);
 	swap_b(array);
+    write(1, "ss\n", 3);
 }
 
 void push_a(t_push_swap *arrays)
@@ -46,6 +49,7 @@ void push_a(t_push_swap *arrays)
 		arrays->b_size--;
 		arrays->a_size++;
 	}
+    write(1, "pa\n", 3);
 }
 
 void push_b(t_push_swap *arrays)
@@ -64,4 +68,5 @@ void push_b(t_push_swap *arrays)
 		arrays->a_size--;
 		arrays->b_size++;
 	}
+    write(1, "pb\n", 3);
 }
