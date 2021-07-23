@@ -49,14 +49,23 @@ void a_to_b(t_push_swap *arrays)
     while (i < arrays->a_size)
     {
         j = 0;
-        while (arrays->a[i] < arrays->b[j])
-            j++;
-        if (!min || (j * 2 < arrays->a_size && min > j + i + 1)
-            || (j * 2 < arrays->a_size && min > j / 2 + i + 1))
+        if (arrays->b_size > 1 && arrays->b[0] < arrays->b[arrays->b_size - 1] && arrays->b[arrays->b_size - 1] < arrays->a[i])
         {
-            min = j / 2 + i + 1;
+            j = arrays->b_size - 1;
+            while (j > 0 && arrays->b[i] < arrays->b[i - 1] && arrays->a[i] < arrays->b[j])
+                j--;
+        }
+        else
+            while (j < arrays->b_size && arrays->a[i] < arrays->b[j])
+                j++;
+        if (!min || min >= j + i + 1)
+        {
             ind_a = i;
-            ind_b = j;
+            if (j * 2 < arrays->a_size)
+                ind_b = j;
+            else
+                ind_b = j ;
+            min = ind_b + ind_a + 1;
         }
         i++;
     }
