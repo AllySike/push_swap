@@ -3,14 +3,14 @@
 static void sort_a(t_push_swap *arrays)
 {
     if (arrays->a[0] > arrays->a[2] && arrays->a[1] < arrays->a[2])
-        rotate_a(arrays);
+        rotate_a(arrays, 1);
     else if ((arrays->a[0] > arrays->a[1] && arrays->a[1] > arrays->a[2])
              || (arrays->a[0] > arrays->a[1] && arrays->a[0] < arrays->a[2]))
-        swap_a(arrays);
+        swap_a(arrays, 1);
     if (arrays->a[0] < arrays->a[1] && arrays->a[1] > arrays->a[2])
-        reverse_rotate_a(arrays);
+        reverse_rotate_a(arrays, 1);
     if (arrays->a[0] > arrays->a[1] && arrays->a[0] < arrays->a[2])
-        swap_a(arrays);
+        swap_a(arrays, 1);
 }
 
 static void start_b(t_push_swap *arrays)
@@ -19,14 +19,14 @@ static void start_b(t_push_swap *arrays)
     push_b(arrays);
     push_b(arrays);
     if (arrays->b[0] < arrays->b[2] && arrays->b[1] > arrays->b[2])
-        rotate_b(arrays);
+        rotate_b(arrays, 1);
     else if ((arrays->b[0] < arrays->b[1] && arrays->b[1] < arrays->b[2])
         || (arrays->b[0] < arrays->b[1] && arrays->b[0] > arrays->b[2]))
-        swap_b(arrays);
+        swap_b(arrays, 1);
     if (arrays->b[0] > arrays->b[1] && arrays->b[1] < arrays->b[2])
-        reverse_rotate_b(arrays);
+        reverse_rotate_b(arrays, 1);
     if (arrays->b[0] < arrays->b[1] && arrays->b[0] > arrays->b[2])
-        swap_b(arrays);
+        swap_b(arrays, 1);
 }
 
 static void finish_sort(t_push_swap * arrays)
@@ -50,28 +50,23 @@ static void finish_sort(t_push_swap * arrays)
     }
     if (index * 2 > arrays->a_size)
         while (index-- > 0)
-            rotate_a(arrays);
+            rotate_a(arrays, 1);
     else
         while (index++ < arrays->a_size)
-            reverse_rotate_a(arrays);
+            reverse_rotate_a(arrays, 1);
 }
 
 static void sort(t_push_swap *arrays)
 {
     if (arrays->a_size > 3)
         start_b(arrays);
-    while (arrays->a_size > 3)
+    while (arrays->a_size > 4)
         a_to_b(arrays);
-//    a_to_b(arrays);
-//    a_to_b(arrays);
-//    a_to_b(arrays);
-//    a_to_b(arrays);
-//    a_to_b(arrays);
-//    a_to_b(arrays);
-//    sort_a(arrays);
-//    while (arrays->b_size > 0)
-//        b_to_a(arrays);
-//    finish_sort(arrays);
+    a_to_b(arrays);
+    sort_a(arrays);
+    while (arrays->b_size > 0)
+        b_to_a(arrays);
+    finish_sort(arrays);
 }
 
 static void push_swap(t_push_swap *arrays, char *argv[])

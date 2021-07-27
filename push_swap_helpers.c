@@ -14,29 +14,29 @@ static void push_b_from_a(int ind_a, int ind_b, t_push_swap *arrays)
     if (b * 2 <= arrays->b_size && a * 2 <= arrays->a_size)
         while (ind_a && ind_b)
         {
-            reverse_rotate_ab(arrays);
+            rotate_ab(arrays);
             ind_a--;
             ind_b--;
         }
     else if (b * 2 >= arrays->b_size && a * 2 >= arrays->a_size)
         while (ind_a && ind_b)
         {
-            rotate_ab(arrays);
+            reverse_rotate_ab(arrays);
             ind_a--;
             ind_b--;
         }
     if (a * 2 > arrays->a_size)
         while (ind_a--)
-            reverse_rotate_a(arrays);
+            reverse_rotate_a(arrays, 1);
     else
         while (ind_a--)
-            rotate_a(arrays);
+            rotate_a(arrays, 1);
     if (b * 2 > arrays->b_size)
         while (ind_b--)
-            reverse_rotate_b(arrays);
+            reverse_rotate_b(arrays, 1);
     else
         while (ind_b--)
-            rotate_b(arrays);
+            rotate_b(arrays, 1);
     push_b(arrays);
 }
 
@@ -117,24 +117,14 @@ void a_to_b(t_push_swap *arrays)
         }
         i++;
     }
-    /*printf("%d\t%d\t%d\n", arrays->a[ind_a], ind_b, ind_a);
-    int s = 0;
-
-//    printf("\n-------a--------:\n");
-//    while (s < arrays->a_size)
-//        printf("%i\n", arrays->a[s++]);
-    s = 0;
-    printf("-------b--------:\n");
-    while (s < arrays->b_size)
-        printf("%i\n", arrays->b[s++]);
-    printf("\n---------------:\n")*/
     push_b_from_a(ind_a, ind_b, arrays);
 }
 
 void b_to_a(t_push_swap *arrays)
 {
     if (arrays->a_size > 3)
-        while (arrays->b[0] < arrays->a[arrays->a_size - 1])
-            reverse_rotate_a(arrays);
+        while (arrays->b[0] < arrays->a[arrays->a_size - 1]
+            && !(arrays->a[0] < arrays->a[arrays->a_size - 1]))
+                reverse_rotate_a(arrays, 1);
     push_a(arrays);
 }

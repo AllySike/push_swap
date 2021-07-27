@@ -19,16 +19,16 @@ typedef struct s_push_swap
 	t_commands *commands;
 } t_push_swap;
 
-void swap_a(t_push_swap *array);
-void swap_b(t_push_swap *array);
+void swap_a(t_push_swap *array, int flag);
+void swap_b(t_push_swap *array, int flag);
 void swap_ab(t_push_swap *array);
 void push_b(t_push_swap *array);
 void push_a(t_push_swap *array);
-void rotate_a(t_push_swap *array);
-void rotate_b(t_push_swap *arrays);
+void rotate_a(t_push_swap *array, int flag);
+void rotate_b(t_push_swap *arrays, int flag);
 void rotate_ab(t_push_swap *arrays);
-void reverse_rotate_a(t_push_swap *arrays);
-void reverse_rotate_b(t_push_swap *arrays);
+void reverse_rotate_a(t_push_swap *arrays, int flag);
+void reverse_rotate_b(t_push_swap *arrays, int flag);
 void reverse_rotate_ab(t_push_swap *arrays);
 void add_command(t_push_swap *arrays, int i);
 void a_to_b(t_push_swap *arrays);
