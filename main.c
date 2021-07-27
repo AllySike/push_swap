@@ -60,9 +60,14 @@ static void sort(t_push_swap *arrays)
 {
     if (arrays->a_size > 3)
         start_b(arrays);
-//    while (arrays->a_size > 3)
-    a_to_b(arrays);
-    a_to_b(arrays);
+    while (arrays->a_size > 3)
+        a_to_b(arrays);
+//    a_to_b(arrays);
+//    a_to_b(arrays);
+//    a_to_b(arrays);
+//    a_to_b(arrays);
+//    a_to_b(arrays);
+//    a_to_b(arrays);
 //    sort_a(arrays);
 //    while (arrays->b_size > 0)
 //        b_to_a(arrays);

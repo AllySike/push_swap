@@ -7,14 +7,18 @@ static void push_b_from_a(int ind_a, int ind_b, t_push_swap *arrays)
 
     a = ind_a;
     b = ind_b;
-    if (ind_b * 2 < arrays->b_size && ind_a * 2 < arrays->a_size)
+    if (ind_a * 2 > arrays->a_size)
+        ind_a = arrays->a_size - ind_a;
+    if (ind_b * 2 > arrays->b_size)
+        ind_b = arrays->b_size - ind_b;
+    if (b * 2 <= arrays->b_size && a * 2 <= arrays->a_size)
         while (ind_a && ind_b)
         {
             reverse_rotate_ab(arrays);
             ind_a--;
             ind_b--;
         }
-    else if (ind_b * 2 >= arrays->b_size && ind_a * 2 >= arrays->a_size)
+    else if (b * 2 >= arrays->b_size && a * 2 >= arrays->a_size)
         while (ind_a && ind_b)
         {
             rotate_ab(arrays);
@@ -36,6 +40,60 @@ static void push_b_from_a(int ind_a, int ind_b, t_push_swap *arrays)
     push_b(arrays);
 }
 
+static int find_min(int *array)
+{
+    int i;
+
+    i = 0;
+    while (array[i + 1] && array[i] > array[i + 1])
+        i++;
+    return (i + 1);
+}
+
+static int a_to_b_helper(int i, t_push_swap *arrays)
+{
+    int j;
+
+    j = 0;
+    if (arrays->b[0] > arrays->a[i])
+    {
+        j = 0;
+        while (j < arrays->b_size && arrays->a[i] < arrays->b[j])
+        {
+            if (j < arrays->b_size - 1 && arrays->b[j] < arrays->b[j + 1])
+                return (j + 1);
+            j++;
+        }
+    }
+    else
+    {
+        j = arrays->b_size - 1;
+        while (j > 0 && arrays->a[i] > arrays->b[j])
+        {
+            if (j > 0 && arrays->b[j - 1] < arrays->b[j])
+                return (j);
+            j--;
+        }
+    }
+    return (j);
+}
+
+int check_min(int i, int j, int a_size, int b_size)
+{
+    int ret;
+
+    ret = 0;
+    if (i * 2 <= a_size)
+        ret += i;
+    else
+        ret += a_size - i;
+    if (j * 2 <= b_size)
+        ret += j;
+    else
+        ret += b_size - j;
+    return (ret);
+}
+
 void a_to_b(t_push_swap *arrays)
 {
     int i;
@@ -43,32 +101,33 @@ void a_to_b(t_push_swap *arrays)
     int min;
     int ind_a;
     int ind_b;
+    int tmp;
 
     i = 0;
     min = 0;
     while (i < arrays->a_size)
     {
-        j = 0;
-        if (arrays->b_size > 1 && arrays->b[0] < arrays->b[arrays->b_size - 1] && arrays->b[arrays->b_size - 1] < arrays->a[i])
-        {
-            j = arrays->b_size - 1;
-            while (j > 0 && arrays->b[i] < arrays->b[i - 1] && arrays->a[i] < arrays->b[j])
-                j--;
-        }
-        else
-            while (j < arrays->b_size && arrays->a[i] < arrays->b[j])
-                j++;
-        if (!min || min >= j + i + 1)
+        j = a_to_b_helper(i, arrays);
+        tmp = check_min(i, j, arrays->a_size, arrays->b_size);
+        if (!min || min > tmp)
         {
             ind_a = i;
-            if (j * 2 < arrays->a_size)
-                ind_b = j;
-            else
-                ind_b = j ;
-            min = ind_b + ind_a + 1;
+            ind_b = j;
+            min = tmp;
         }
         i++;
     }
+    /*printf("%d\t%d\t%d\n", arrays->a[ind_a], ind_b, ind_a);
+    int s = 0;
+
+//    printf("\n-------a--------:\n");
+//    while (s < arrays->a_size)
+//        printf("%i\n", arrays->a[s++]);
+    s = 0;
+    printf("-------b--------:\n");
+    while (s < arrays->b_size)
+        printf("%i\n", arrays->b[s++]);
+    printf("\n---------------:\n")*/
     push_b_from_a(ind_a, ind_b, arrays);
 }
 
