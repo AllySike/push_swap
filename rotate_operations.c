@@ -1,9 +1,9 @@
 #include "includes/push_swap.h"
 
-void rotate_a(t_push_swap *arrays, int flag)
+void	rotate_a(t_push_swap *arrays, int flag)
 {
-	int i;
-	int tmp;
+	int	i;
+	int	tmp;
 
 	if (arrays->a_size > 1)
 	{
@@ -14,13 +14,13 @@ void rotate_a(t_push_swap *arrays, int flag)
 		arrays->a[arrays->a_size - 1] = tmp;
 	}
 	if (flag)
-        write(1, "ra\n", 3);
+		write(1, "ra\n", 3);
 }
 
-void rotate_b(t_push_swap *arrays, int flag)
+void	rotate_b(t_push_swap *arrays, int flag)
 {
-	int i;
-	int tmp;
+	int	i;
+	int	tmp;
 
 	if (arrays->b_size > 1)
 	{
@@ -31,12 +31,12 @@ void rotate_b(t_push_swap *arrays, int flag)
 		arrays->b[arrays->b_size - 1] = tmp;
 	}
 	if (flag)
-        write(1, "rb\n", 3);
+		write(1, "rb\n", 3);
 }
 
-void rotate_ab(t_push_swap *arrays)
+void	rotate_ab(t_push_swap *arrays)
 {
 	rotate_a(arrays, 0);
 	rotate_b(arrays, 0);
-    write(1, "rr\n", 3);
+	write(1, "rr\n", 3);
 }

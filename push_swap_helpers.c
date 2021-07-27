@@ -1,170 +1,110 @@
 #include "includes/push_swap.h"
 
-static void push_b_from_a(int ind_a, int ind_b, t_push_swap *arrays)
+static int	a_to_b_helper(int i, t_push_swap *arrays)
 {
-    int a;
-    int b;
+	int	j;
 
-    a = ind_a;
-    b = ind_b;
-    if (ind_a * 2 > arrays->a_size)
-        ind_a = arrays->a_size - ind_a;
-    if (ind_b * 2 > arrays->b_size)
-        ind_b = arrays->b_size - ind_b;
-    if (b * 2 <= arrays->b_size && a * 2 <= arrays->a_size)
-        while (ind_a && ind_b)
-        {
-            rotate_ab(arrays);
-            ind_a--;
-            ind_b--;
-        }
-    else if (b * 2 >= arrays->b_size && a * 2 >= arrays->a_size)
-        while (ind_a && ind_b)
-        {
-            reverse_rotate_ab(arrays);
-            ind_a--;
-            ind_b--;
-        }
-    if (a * 2 > arrays->a_size)
-        while (ind_a--)
-            reverse_rotate_a(arrays, 1);
-    else
-        while (ind_a--)
-            rotate_a(arrays, 1);
-    if (b * 2 > arrays->b_size)
-        while (ind_b--)
-            reverse_rotate_b(arrays, 1);
-    else
-        while (ind_b--)
-            rotate_b(arrays, 1);
-    push_b(arrays);
+	j = 0;
+	if (arrays->b[0] > arrays->b[arrays->b_size - 1] || (arrays->b[0]
+			< arrays->b[arrays->b_size - 1] && arrays->b[0] > arrays->a[i]))
+	{
+		j = 0;
+		while (j < arrays->b_size && arrays->a[i] < arrays->b[j])
+			if (j++ < arrays->b_size - 1 && arrays->b[j - 1] < arrays->b[j])
+				return (j);
+	}
+	else
+	{
+		j = arrays->b_size - 1;
+		while (j > 0 && arrays->a[i] > arrays->b[j])
+			if (j-- > 0 && arrays->b[j] < arrays->b[j + 1])
+				return (j + 1);
+		if (j++ > arrays->b_size - 1)
+			j = 0;
+	}
+	return (j);
 }
 
-static int find_min(int *array)
+static int	b_to_a_helper(t_push_swap *arrays)
 {
-    int i;
+	int	j;
 
-    i = 0;
-    while (array[i + 1] && array[i] > array[i + 1])
-        i++;
-    return (i + 1);
+	j = 0;
+	if (arrays->b[0] > arrays->a[0])
+	{
+		while (j < arrays->a_size && arrays->a[j] > arrays->b[0])
+		{
+			if (j < arrays->a_size - 1 && arrays->a[j] > arrays->a[j + 1])
+				return (j + 1);
+			j++;
+		}
+	}
+	else
+	{
+		j = arrays->a_size - 1;
+		while (j > 0 && arrays->a[j] > arrays->b[0])
+		{
+			if (j > 0 && arrays->a[j - 1] > arrays->a[j])
+				return (j);
+			j--;
+		}
+	}
+	return (j);
 }
 
-static int a_to_b_helper(int i, t_push_swap *arrays)
+int	check_min(int i, int j, t_push_swap *arrays)
 {
-    int j;
+	int	ret;
 
-    j = 0;
-    if (arrays->b[0] > arrays->b[arrays->b_size - 1]
-        || (arrays->b[0] < arrays->b[arrays->b_size - 1] && arrays->b[0] > arrays->a[i]))
-    {
-        j = 0;
-        while (j < arrays->b_size && arrays->a[i] < arrays->b[j])
-        {
-            if (j < arrays->b_size - 1 && arrays->b[j] < arrays->b[j + 1])
-                return (j + 1);
-            j++;
-        }
-    }
-    else
-    {
-        j = arrays->b_size - 1;
-        while (j > 0 && arrays->a[i] > arrays->b[j])
-        {
-            if (j > 0 && arrays->b[j - 1] < arrays->b[j])
-                return (j);
-            j--;
-        }
-        j++;
-        if (j > arrays->b_size - 1)
-        	j = 0;
-    }
-    return (j);
+	ret = 0;
+	if (i * 2 <= arrays->a_size)
+		ret += i;
+	else
+		ret += arrays->a_size - i;
+	if (j * 2 <= arrays->b_size)
+		ret += j;
+	else
+		ret += arrays->b_size - j;
+	return (ret);
 }
 
-static int b_to_a_helper(t_push_swap *arrays)
+void	a_to_b(t_push_swap *arrays, int i)
 {
-    int j;
+	int	j;
+	int	min;
+	int	ind_a;
+	int	ind_b;
+	int	tmp;
 
-    j = 0;
-    if (arrays->b[0] > arrays->a[0])
-    {
-        while (j < arrays->a_size && arrays->a[j] > arrays->b[0])
-        {
-            if (j < arrays->a_size - 1 && arrays->a[j] > arrays->a[j + 1])
-                return (j + 1);
-            j++;
-        }
-    }
-    else
-    {
-        j = arrays->a_size - 1;
-        while (j > 0 && arrays->a[j] > arrays->b[0])
-        {
-            if (j > 0 && arrays->a[j - 1] > arrays->a[j])
-                return (j);
-            j--;
-        }
-    }
-    return (j);
+	min = 0;
+	while (i < arrays->a_size)
+	{
+		j = a_to_b_helper(i, arrays);
+		tmp = check_min(i, j, arrays);
+		if (!min || min > tmp)
+		{
+			ind_a = i;
+			ind_b = j;
+			min = tmp;
+		}
+		i++;
+	}
+	push_b_from_a(ind_a, ind_b, arrays);
 }
 
-int check_min(int i, int j, int a_size, int b_size)
+void	b_to_a(t_push_swap *arrays)
 {
-    int ret;
+	int	i;
 
-    ret = 0;
-    if (i * 2 <= a_size)
-        ret += i;
-    else
-        ret += a_size - i;
-    if (j * 2 <= b_size)
-        ret += j;
-    else
-        ret += b_size - j;
-    return (ret);
-}
-
-void a_to_b(t_push_swap *arrays)
-{
-    int i;
-    int j;
-    int min;
-    int ind_a;
-    int ind_b;
-    int tmp;
-
-    i = 0;
-    min = 0;
-    while (i < arrays->a_size)
-    {
-        j = a_to_b_helper(i, arrays);
-        tmp = check_min(i, j, arrays->a_size, arrays->b_size);
-        if (!min || min > tmp)
-        {
-            ind_a = i;
-            ind_b = j;
-            min = tmp;
-        }
-        i++;
-    }
-    push_b_from_a(ind_a, ind_b, arrays);
-}
-
-void b_to_a(t_push_swap *arrays)
-{
-    int i;
-
-    i = b_to_a_helper(arrays);
-    // printf("%d\tldsfjgkh ahsfdzkvxcjhaskdzvha\n", i);
-    if (i * 2 > arrays->a_size)
-    {
-        i = arrays->a_size - i;
-            while (i--)
-                reverse_rotate_a(arrays, 1);
-        }
-        else
-            while (i--)
-                rotate_a(arrays, 1);
-    push_a(arrays);
+	i = b_to_a_helper(arrays);
+	if (i * 2 > arrays->a_size)
+	{
+		i = arrays->a_size - i;
+		while (i--)
+			reverse_rotate_a(arrays, 1);
+	}
+	else
+		while (i--)
+			rotate_a(arrays, 1);
+	push_a(arrays);
 }

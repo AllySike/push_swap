@@ -1,89 +1,70 @@
 #include "includes/push_swap.h"
 
-static void sort_a(t_push_swap *arrays)
+static void	sort_a(t_push_swap *arrays)
 {
-    if (arrays->a_size > 2 && arrays->a[0] > arrays->a[2] && arrays->a[1] < arrays->a[2])
-        rotate_a(arrays, 1);
-    else if (arrays->a_size > 2 && ((arrays->a[0] > arrays->a[1] && arrays->a[1] > arrays->a[2])
-             || (arrays->a[0] > arrays->a[1] && arrays->a[0] < arrays->a[2])))
-        swap_a(arrays, 1);
-    if (arrays->a_size > 2 && arrays->a[0] < arrays->a[1] && arrays->a[1] > arrays->a[2])
-        reverse_rotate_a(arrays, 1);
-    if (arrays->a_size > 2 && arrays->a[0] > arrays->a[1] && arrays->a[0] < arrays->a[2])
-        swap_a(arrays, 1);
+	if (arrays->a_size > 2 && arrays->a[0] > arrays->a[2]
+		&& arrays->a[1] < arrays->a[2])
+		rotate_a(arrays, 1);
+	else if (arrays->a_size > 2 && ((arrays->a[0] > arrays->a[1]
+				&& arrays->a[1] > arrays->a[2]) || (arrays->a[0] > arrays->a[1]
+				&& arrays->a[0] < arrays->a[2])))
+		swap_a(arrays, 1);
+	if (arrays->a_size > 2 && arrays->a[0] < arrays->a[1]
+		&& arrays->a[1] > arrays->a[2])
+		reverse_rotate_a(arrays, 1);
+	if (arrays->a_size > 2 && arrays->a[0] > arrays->a[1]
+		&& arrays->a[0] < arrays->a[2])
+		swap_a(arrays, 1);
 }
 
-static void start_b(t_push_swap *arrays)
+static void	start_b(t_push_swap *arrays)
 {
-    push_b(arrays);
-    push_b(arrays);
-    push_b(arrays);
-    if (arrays->b[0] < arrays->b[2] && arrays->b[1] > arrays->b[2])
-        rotate_b(arrays, 1);
-    else if ((arrays->b[0] < arrays->b[1] && arrays->b[1] < arrays->b[2])
-        || (arrays->b[0] < arrays->b[1] && arrays->b[0] > arrays->b[2]))
-        swap_b(arrays, 1);
-    if (arrays->b[0] > arrays->b[1] && arrays->b[1] < arrays->b[2])
-        reverse_rotate_b(arrays, 1);
-    if (arrays->b[0] < arrays->b[1] && arrays->b[0] > arrays->b[2])
-        swap_b(arrays, 1);
+	push_b(arrays);
+	push_b(arrays);
+	push_b(arrays);
+	if (arrays->b[0] < arrays->b[2] && arrays->b[1] > arrays->b[2])
+		rotate_b(arrays, 1);
+	else if ((arrays->b[0] < arrays->b[1] && arrays->b[1] < arrays->b[2])
+		|| (arrays->b[0] < arrays->b[1] && arrays->b[0] > arrays->b[2]))
+		swap_b(arrays, 1);
+	if (arrays->b[0] > arrays->b[1] && arrays->b[1] < arrays->b[2])
+		reverse_rotate_b(arrays, 1);
+	if (arrays->b[0] < arrays->b[1] && arrays->b[0] > arrays->b[2])
+		swap_b(arrays, 1);
 }
 
-static void finish_sort(t_push_swap * arrays)
+static void	finish_sort(t_push_swap *arrays)
 {
-    int min;
-    int i;
-    int index;
+	int	min;
+	int	i;
+	int	index;
 
-
-    min = arrays->a[0];
-    index = 0;
-    i = 0;
-    while (i < arrays->a_size)
-    {
-        if (min > arrays->a[i])
-        {
-            min = arrays->a[i];
-            index = i;
-        }
-        i++;
-    }
-    if (index * 2 > arrays->a_size)
+	min = arrays->a[0];
+	index = 0;
+	i = 0;
+	while (i < arrays->a_size)
+	{
+		if (min > arrays->a[i])
+		{
+			min = arrays->a[i];
+			index = i;
+		}
+		i++;
+	}
+	if (index * 2 > arrays->a_size)
 	{
 		index = arrays->a_size - index;
-        while (index-- > 0)
-            reverse_rotate_a(arrays, 1);
+		while (index-- > 0)
+			reverse_rotate_a(arrays, 1);
 	}
-    else
-        while (index-- > 0)
-            rotate_a(arrays, 1);
+	else
+		while (index-- > 0)
+			rotate_a(arrays, 1);
 }
 
-static void sort(t_push_swap *arrays)
+static void	push_swap(t_push_swap *arrays, char *argv[])
 {
-    if (arrays->a_size > 3)
-	{
-        start_b(arrays);
-    	while (arrays->a_size > 0)
-	    a_to_b(arrays);
-//	    a_to_b(arrays);
-//	    a_to_b(arrays);
-//	    a_to_b(arrays);
-//	    a_to_b(arrays);
-//	    a_to_b(arrays);
-//	    a_to_b(arrays);
-//	    a_to_b(arrays);
-	}
-	sort_a(arrays);
-     while (arrays->b_size > 0)
-		 push_a(arrays);
-     if (arrays->a[0] > arrays->a[arrays->a_size - 1])
-         finish_sort(arrays);
-}
-
-static void push_swap(t_push_swap *arrays, char *argv[])
-{
-	int i;
+	int	i;
 
 	i = 0;
 	while (argv[i + 1] && i < arrays->a_size)
@@ -91,33 +72,22 @@ static void push_swap(t_push_swap *arrays, char *argv[])
 		arrays->a[i] = atoi(argv[i + 1]);
 		i++;
 	}
-	arrays->commands = NULL;
-/*
-	i = 0;
-    printf("\na before:\n");
-    while (i < arrays->a_size)
-        printf("%i\n", arrays->a[i++]);
-    i = 0;
-    printf("\nb before:\n");
-    while (i < arrays->b_size)
-        printf("%i\n", arrays->b[i++]);
-*/
-    sort(arrays);
-/*
-i = 0;
-    printf("\na after:\n");
-    while (i < arrays->a_size)
-        printf("%i\n", arrays->a[i++]);
-    i = 0;
-    printf("\nb after:\n");
-    while (i < arrays->b_size)
-        printf("%i\n", arrays->b[i++]);
-    i = 0;
-*/
+	if (arrays->a_size > 3)
+	{
+		start_b(arrays);
+		while (arrays->a_size > 0)
+			a_to_b(arrays, 0);
+	}
+	sort_a(arrays);
+	while (arrays->b_size > 0)
+		push_a(arrays);
+	if (arrays->a[0] > arrays->a[arrays->a_size - 1])
+		finish_sort(arrays);
 }
 
-int main(int argc, char *argv[]) {
-	t_push_swap arrays;
+int	main(int argc, char *argv[])
+{
+	t_push_swap	arrays;
 
 	if (argc < 2)
 	{
@@ -138,5 +108,5 @@ int main(int argc, char *argv[]) {
 		free(arrays.a);
 	if (arrays.b)
 		free(arrays.b);
-	return 0;
+	return (0);
 }
