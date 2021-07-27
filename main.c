@@ -1,21 +1,16 @@
-#include "includes/push_swap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kgale <kgale@student.21-school.ru>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/27 23:30:34 by kgale             #+#    #+#             */
+/*   Updated: 2021/07/27 23:30:38 by kgale            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static void	sort_a(t_push_swap *arrays)
-{
-	if (arrays->a_size > 2 && arrays->a[0] > arrays->a[2]
-		&& arrays->a[1] < arrays->a[2])
-		rotate_a(arrays, 1);
-	else if (arrays->a_size > 2 && ((arrays->a[0] > arrays->a[1]
-				&& arrays->a[1] > arrays->a[2]) || (arrays->a[0] > arrays->a[1]
-				&& arrays->a[0] < arrays->a[2])))
-		swap_a(arrays, 1);
-	if (arrays->a_size > 2 && arrays->a[0] < arrays->a[1]
-		&& arrays->a[1] > arrays->a[2])
-		reverse_rotate_a(arrays, 1);
-	if (arrays->a_size > 2 && arrays->a[0] > arrays->a[1]
-		&& arrays->a[0] < arrays->a[2])
-		swap_a(arrays, 1);
-}
+#include "includes/push_swap.h"
 
 static void	start_b(t_push_swap *arrays)
 {
@@ -62,16 +57,8 @@ static void	finish_sort(t_push_swap *arrays)
 			rotate_a(arrays, 1);
 }
 
-static void	push_swap(t_push_swap *arrays, char *argv[])
+static void	sort(t_push_swap *arrays)
 {
-	int	i;
-
-	i = 0;
-	while (argv[i + 1] && i < arrays->a_size)
-	{
-		arrays->a[i] = atoi(argv[i + 1]);
-		i++;
-	}
 	if (arrays->a_size > 3)
 	{
 		start_b(arrays);
@@ -85,20 +72,45 @@ static void	push_swap(t_push_swap *arrays, char *argv[])
 		finish_sort(arrays);
 }
 
+static void	push_swap(t_push_swap *arrays, char *argv[])
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (argv[i + 1] && i < arrays->a_size)
+	{
+		arrays->a[i] = atoi(argv[i + 1]);
+		if (i++)
+		{
+			j = i - 2;
+			while (j >= 0)
+			{
+				if (arrays->a[j--] == arrays->a[i - 1])
+				{
+					write(2, "Error: duplicates in stack\n", 28);
+					return ;
+				}
+			}
+		}
+	}
+	sort(arrays);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_push_swap	arrays;
 
 	if (argc < 2)
 	{
-		write(1, "Too few arguments\n", 18);
+		write(2, "Too few arguments\n", 18);
 		return (0);
 	}
 	arrays.a = malloc(sizeof(int) * (argc - 1));
 	arrays.b = malloc(sizeof(int) * (argc - 1));
 	if (!arrays.a || !arrays.b)
 	{
-		write(1, "Error with malloc\n", 18);
+		write(2, "Error with malloc\n", 18);
 		return (-1);
 	}
 	arrays.a_size = argc - 1;
