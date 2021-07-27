@@ -66,7 +66,8 @@ static void sort(t_push_swap *arrays)
     sort_a(arrays);
     while (arrays->b_size > 0)
         b_to_a(arrays);
-    finish_sort(arrays);
+    if (arrays->a[0] > arrays->a[arrays->a_size - 1])
+        finish_sort(arrays);
 }
 
 static void push_swap(t_push_swap *arrays, char *argv[])
