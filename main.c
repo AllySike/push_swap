@@ -6,7 +6,7 @@
 /*   By: kgale <kgale@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 23:30:34 by kgale             #+#    #+#             */
-/*   Updated: 2021/07/27 23:30:38 by kgale            ###   ########.fr       */
+/*   Updated: 2021/07/27 23:33:25 by kgale            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,14 @@ int	main(int argc, char *argv[])
 
 	if (argc < 2)
 	{
-		write(2, "Too few arguments\n", 18);
+		write(2, "Errorr: few arguments\n", 23);
 		return (0);
 	}
 	arrays.a = malloc(sizeof(int) * (argc - 1));
 	arrays.b = malloc(sizeof(int) * (argc - 1));
 	if (!arrays.a || !arrays.b)
 	{
-		write(2, "Error with malloc\n", 18);
+		write(2, "Error with malloc\n", 19);
 		return (-1);
 	}
 	arrays.a_size = argc - 1;
