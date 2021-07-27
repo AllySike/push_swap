@@ -6,7 +6,7 @@
 /*   By: kgale <kgale@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 23:30:34 by kgale             #+#    #+#             */
-/*   Updated: 2021/07/27 23:33:25 by kgale            ###   ########.fr       */
+/*   Updated: 2021/07/28 00:09:37 by kgale            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ static void	sort(t_push_swap *arrays)
 	if (arrays->a_size > 3)
 	{
 		start_b(arrays);
-		while (arrays->a_size > 0)
+		while (arrays->a_size > 3)
 			a_to_b(arrays, 0);
 	}
 	sort_a(arrays);
 	while (arrays->b_size > 0)
-		push_a(arrays);
+		b_to_a(arrays);
 	if (arrays->a[0] > arrays->a[arrays->a_size - 1])
 		finish_sort(arrays);
 }

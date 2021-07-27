@@ -6,7 +6,7 @@
 /*   By: kgale <kgale@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 23:31:04 by kgale             #+#    #+#             */
-/*   Updated: 2021/07/27 23:31:07 by kgale            ###   ########.fr       */
+/*   Updated: 2021/07/28 00:11:55 by kgale            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	sort_a(t_push_swap *arrays)
 	if (arrays->a_size > 2 && arrays->a[0] < arrays->a[1]
 		&& arrays->a[1] > arrays->a[2])
 		reverse_rotate_a(arrays, 1);
-	if (arrays->a_size > 2 && arrays->a[0] > arrays->a[1]
-		&& arrays->a[0] < arrays->a[2])
+	if ((arrays->a_size > 2 && arrays->a[0] > arrays->a[1]
+			&& arrays->a[0] < arrays->a[2]) || (arrays->a_size == 2
+			&& arrays->a[0] > arrays->a[1]))
 		swap_a(arrays, 1);
 }

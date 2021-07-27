@@ -9,7 +9,8 @@ SRCS =	main.c \
 		reverse_rotate_operations.c \
 		rotate_operations.c \
 		swap_push_operations.c \
-		push_b_from_a.c
+		push_b_from_a.c \
+		push_a_from_b.c
 
 OBJS_SRCS = ${SRCS:.c=.o}
 

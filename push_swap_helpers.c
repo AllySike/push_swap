@@ -6,7 +6,7 @@
 /*   By: kgale <kgale@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 23:30:59 by kgale             #+#    #+#             */
-/*   Updated: 2021/07/27 23:31:00 by kgale            ###   ########.fr       */
+/*   Updated: 2021/07/28 00:11:37 by kgale            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int	a_to_b_helper(int i, t_push_swap *arrays)
 {
 	int	j;
 
-	j = 0;
 	if (arrays->b[0] > arrays->b[arrays->b_size - 1] || (arrays->b[0]
 			< arrays->b[arrays->b_size - 1] && arrays->b[0] > arrays->a[i]))
 	{
@@ -33,33 +32,6 @@ static int	a_to_b_helper(int i, t_push_swap *arrays)
 				return (j + 1);
 		if (j++ > arrays->b_size - 1)
 			j = 0;
-	}
-	return (j);
-}
-
-static int	b_to_a_helper(t_push_swap *arrays)
-{
-	int	j;
-
-	j = 0;
-	if (arrays->b[0] > arrays->a[0])
-	{
-		while (j < arrays->a_size && arrays->a[j] > arrays->b[0])
-		{
-			if (j < arrays->a_size - 1 && arrays->a[j] > arrays->a[j + 1])
-				return (j + 1);
-			j++;
-		}
-	}
-	else
-	{
-		j = arrays->a_size - 1;
-		while (j > 0 && arrays->a[j] > arrays->b[0])
-		{
-			if (j > 0 && arrays->a[j - 1] > arrays->a[j])
-				return (j);
-			j--;
-		}
 	}
 	return (j);
 }
@@ -102,21 +74,4 @@ void	a_to_b(t_push_swap *arrays, int i)
 		i++;
 	}
 	push_b_from_a(ind_a, ind_b, arrays);
-}
-
-void	b_to_a(t_push_swap *arrays)
-{
-	int	i;
-
-	i = b_to_a_helper(arrays);
-	if (i * 2 > arrays->a_size)
-	{
-		i = arrays->a_size - i;
-		while (i--)
-			reverse_rotate_a(arrays, 1);
-	}
-	else
-		while (i--)
-			rotate_a(arrays, 1);
-	push_a(arrays);
 }

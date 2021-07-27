@@ -39,5 +39,4 @@ void	a_to_b(t_push_swap *arrays, int i);
 void	b_to_a(t_push_swap *array);
 void	push_b_from_a(int ind_a, int ind_b, t_push_swap *arrays);
 void	sort_a(t_push_swap *arrays);
-
 #endif
