@@ -6,7 +6,7 @@
 /*   By: kgale <kgale@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 23:30:59 by kgale             #+#    #+#             */
-/*   Updated: 2021/07/28 00:11:37 by kgale            ###   ########.fr       */
+/*   Updated: 2021/07/28 04:25:07 by kgale            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,18 @@ void	a_to_b(t_push_swap *arrays, int i)
 		i++;
 	}
 	push_b_from_a(ind_a, ind_b, arrays);
+}
+
+int	check_sorted(t_push_swap *arrays)
+{
+	int	d;
+
+	d = 0;
+	while (d < arrays->a_size)
+	{
+		if (d > 0 && arrays->a[d - 1] > arrays->a[d])
+			return (0);
+		d++;
+	}
+	return (1);
 }

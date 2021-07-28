@@ -6,7 +6,7 @@
 /*   By: kgale <kgale@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 23:30:34 by kgale             #+#    #+#             */
-/*   Updated: 2021/07/28 00:09:37 by kgale            ###   ########.fr       */
+/*   Updated: 2021/07/28 04:32:02 by kgale            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	finish_sort(t_push_swap *arrays)
 			rotate_a(arrays, 1);
 }
 
-static void	sort(t_push_swap *arrays)
+void	sort(t_push_swap *arrays)
 {
 	if (arrays->a_size > 3)
 	{
@@ -80,21 +80,25 @@ static void	push_swap(t_push_swap *arrays, char *argv[])
 	i = 0;
 	while (argv[i + 1] && i < arrays->a_size)
 	{
-		arrays->a[i] = atoi(argv[i + 1]);
-		if (i++)
+		if (my_atoi(argv[i + 1], &(arrays->a[i])))
 		{
-			j = i - 2;
-			while (j >= 0)
+			write(2, "Error: not int in stack\n", 24);
+			return ;
+		}
+		j = i++ - 2;
+		while (j >= 0)
+		{
+			if (arrays->a[j--] == arrays->a[i - 1])
 			{
-				if (arrays->a[j--] == arrays->a[i - 1])
-				{
-					write(2, "Error: duplicates in stack\n", 28);
-					return ;
-				}
+				write(2, "Error: duplicates in stack\n", 27);
+				return ;
 			}
 		}
 	}
-	sort(arrays);
+	if (!check_sorted(arrays))
+		sort(arrays);
+	if (arrays->a)
+		free(arrays->a);
 }
 
 int	main(int argc, char *argv[])
@@ -103,22 +107,25 @@ int	main(int argc, char *argv[])
 
 	if (argc < 2)
 	{
-		write(2, "Errorr: few arguments\n", 23);
+		write(2, "Error: few arguments\n", 22);
 		return (0);
 	}
-	arrays.a = malloc(sizeof(int) * (argc - 1));
-	arrays.b = malloc(sizeof(int) * (argc - 1));
-	if (!arrays.a || !arrays.b)
+	else if (argc == 2)
+		arg_handler(&arrays, argv[1]);
+	else
 	{
-		write(2, "Error with malloc\n", 19);
-		return (-1);
+		arrays.a = malloc(sizeof(int) * (argc - 1));
+		arrays.b = malloc(sizeof(int) * (argc - 1));
+		if (!arrays.a || !arrays.b)
+		{
+			write(2, "Error with malloc\n", 19);
+			return (-1);
+		}
+		arrays.b_size = 0;
+		arrays.a_size = argc - 1;
+		push_swap(&arrays, argv);
+		if (arrays.b)
+			free(arrays.b);
 	}
-	arrays.a_size = argc - 1;
-	arrays.b_size = 0;
-	push_swap(&arrays, argv);
-	if (arrays.a)
-		free(arrays.a);
-	if (arrays.b)
-		free(arrays.b);
 	return (0);
 }
